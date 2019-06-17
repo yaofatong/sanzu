@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <link rel="stylesheet" href="/js/layui/css/layui.css">
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/layui/layui.all.js"></script>
+    <script src="/js/layui/layui.js"></script>
+
+</head>
+<body layadmin-themealias="default">
+
+<div id="LAY_app" class="layadmin-tabspage-none">
+    <div class="layui-layout layui-layout-admin">
+        <!--<div class="layui-header">
+
+            &lt;!&ndash; 头部区域（可配合layui已有的水平导航） &ndash;&gt;
+            <ul class="layui-nav layui-layout-right">
+                <li class="layui-nav-item">
+                    当前登录用户：
+                    <span id="user"></span>
+                </li>
+                <li class="layui-nav-item"><a href="">退出</a></li>
+            </ul>
+        </div>-->
+        <div class="layui-header">
+            <!-- 头部区域 -->
+            <div>
+                <br/>
+                <font size="4px" color="#008b8b">
+                    <strong>
+
+                    </strong>
+                </font>
+            </div>
+            <ul class="layui-nav layui-layout-left">
+                <li class="layui-nav-item layadmin-flexible" lay-unselect="">
+                    <a href="javascript:;" layadmin-event="flexible" title="侧边伸缩">
+                        <i class="layui-icon layui-icon-shrink-right" id="LAY_app_flexible"></i>
+                    </a>
+                </li>
+                <li class="layui-nav-item layui-hide-xs" lay-unselect="">
+                    <a href="javascript:void(0)" target="_blank" title="前台">
+                        <i class="layui-icon layui-icon-website"></i>
+                    </a>
+                </li>
+                <li class="layui-nav-item" lay-unselect="">
+                    <a href="javascript:refreshOrderPage();" layadmin-event="refresh" title="刷新">
+                        <i class="layui-icon layui-icon-refresh-3"></i>
+                    </a>
+                </li>
+                <li class="layui-nav-item layui-hide-xs" lay-unselect="">
+                    <input type="text" placeholder="搜索..." autocomplete="off" class="layui-input layui-input-search" layadmin-event="serach" lay-action="template/search/keywords=">
+                </li>
+                <span class="layui-nav-bar" style="left: 146px; top: 48px; width: 0px; opacity: 0;"></span></ul>
+            <ul class="layui-nav layui-layout-right" lay-filter="layadmin-layout-right">
+
+                <li class="layui-nav-item" lay-unselect="">
+                    <a lay-href="app/message/" layadmin-event="message">
+                        <i class="layui-icon layui-icon-notice"></i>
+                        <!-- 如果有新消息，则显示小圆点 -->
+                        <script type="text/html" template="" lay-url="./json/message/new.js">
+                            {{# if(d.data.newmsg){ }}
+                            <span class="layui-badge-dot"></span>
+                            {{# } }}
+                        </script>  <span class="layui-badge-dot"></span>
+                    </a>
+                </li>
+                <li class="layui-nav-item layui-hide-xs" lay-unselect="">
+                    <a href="javascript:;" layadmin-event="theme">
+                        <i class="layui-icon layui-icon-theme"></i>
+                    </a>
+                </li>
+                <li class="layui-nav-item layui-hide-xs" lay-unselect="">
+                    <a href="javascript:;" layadmin-event="note">
+                        <i class="layui-icon layui-icon-note"></i>
+                    </a>
+                </li>
+                <li class="layui-nav-item layui-hide-xs" lay-unselect="">
+                    <a href="javascript:;" layadmin-event="fullscreen">
+                        <i class="layui-icon layui-icon-screen-full"></i>
+                    </a>
+                </li>
+                <li class="layui-nav-item" lay-unselect="">
+                    <script type="text/html" template="" lay-url="./json/user/session.js" lay-done="layui.element.render('nav', 'layadmin-layout-right');">
+                        <a href="javascript:;">
+                            <cite>{{ d.data.username }}</cite>
+                        </a>
+                        <dl class="layui-nav-child">
+                            <dd><a lay-href="set/user/info">基本资料</a></dd>
+                            <dd><a lay-href="set/user/password">修改密码</a></dd>
+                            <hr>
+                            <dd layadmin-event="logout" style="text-align: center;"><a>退出</a></dd>
+                        </dl>
+                    </script> <a href="javascript:;"> <cite><span id="userName"></span></cite> <span class="layui-nav-more"></span></a> <dl class="layui-nav-child layui-anim layui-anim-upbit"> <dd><a lay-href="set/user/info">基本资料</a></dd> <dd><a lay-href="set/user/password">修改密码</a></dd> <hr> <dd layadmin-event="logout" style="text-align: center;"><a>退出</a></dd> </dl>
+                </li>
+
+                <li class="layui-nav-item layui-hide-xs" lay-unselect="">
+                    <a href="javascript:;" layadmin-event="about"><i class="layui-icon layui-icon-more-vertical"></i></a>
+                </li>
+                <li class="layui-nav-item layui-show-xs-inline-block layui-hide-sm" lay-unselect="">
+                    <a href="javascript:;" layadmin-event="more"><i class="layui-icon layui-icon-more-vertical"></i></a>
+                </li>
+                <span class="layui-nav-bar" style="left: 70px; top: 48px; width: 0px; opacity: 0;"></span>
+            </ul>
+        </div>
+        <div id="navBarId" class="layui-side layui-bg-black">
+            <!--<div class="layui-side-scroll">
+                &lt;!&ndash; 左侧导航区域（可配合layui已有的垂直导航） &ndash;&gt;
+            </div>-->
+        </div>
+        <div class="layui-body">
+            <!-- 内容主体区域 -->
+            <div style="padding-left: 15px;">
+                <div class="layui-tab" lay-filter="demo" lay-allowClose="true">
+                    <ul class="layui-tab-title"  lay-allowClose="true">
+                        <li class="layui-this " >首页</li>
+                    </ul>
+                    <div class="layui-tab-content">
+                        <div class="layui-tab-item layui-show">
+                            <img src="http://www.lvmae.com/topic/vip/images/vip_01.jpg" width="100%" height="100%">
+                            <img src="http://www.lvmae.com/topic/vip/images/vip_02.jpg" width="100%" height="100%">
+                            <img src="http://www.lvmae.com/topic/vip/images/vip_03.jpg" width="100%" height="100%">
+                            <img src="http://www.lvmae.com/topic/vip/images/vip_04.jpg" width="100%" height="100%">
+                            <img src="http://www.lvmae.com/topic/vip/images/vip_05.jpg" width="100%" height="100%">
+                            <img src="http://www.lvmae.com/topic/vip/images/vip_06.jpg" width="100%" height="100%">
+                            <img src="http://www.lvmae.com/topic/vip/images/vip_07.jpg" width="100%" height="100%">
+                            <img src="http://www.lvmae.com/topic/vip/images/vip_08.jpg" width="100%" height="100%">
+                            <img src="http://www.lvmae.com/topic/vip/images/vip_09.jpg" width="100%" height="100%">
+                            <img src="http://www.lvmae.com/topic/vip/images/vip_10.jpg" width="100%" height="100%">
+                            <img src="http://www.lvmae.com/topic/vip/images/vip_11.jpg" width="100%" height="100%">
+                            <img src="http://www.lvmae.com/topic/vip/images/vip_12.jpg" width="100%" height="100%">
+                            <img src="http://www.lvmae.com/topic/vip/images/vip_13.jpg" width="100%" height="100%">
+                            <img src="http://www.lvmae.com/topic/vip/images/vip_14.jpg" width="100%" height="100%">
+                            <img src="http://www.lvmae.com/topic/vip/images/vip_15.jpg" width="100%" height="100%">
+                            <img src="http://www.lvmae.com/topic/vip/images/vip_16.jpg" width="100%" height="100%">
+                            <img src="http://www.lvmae.com/topic/vip/images/vip_17.jpg" width="100%" height="100%">
+                            <img src="http://www.lvmae.com/topic/vip/images/vip_18.jpg" width="100%" height="100%">
+                            <img src="http://www.lvmae.com/topic/vip/images/vip_19.jpg" width="100%" height="100%">
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    <div class="layui-footer">
+        <!-- 底部固定区域 -->
+        © layui.com - 底部固定区域
+    </div>
+</div>
+    <ul id="demo"></ul>
+</body>
+<script type="text/javascript">
+
+    var menuCell = 5;
+
+    layui.use('element', function(){
+
+        var element = layui.element;
+        var $ = layui.jquery;
+        $("#userName").html($("#companyName").val());
+        $.ajax({
+           url : '../getTree',
+           type : 'post',
+           success : function(data){
+               console.log("data: "+data);
+               //data = JSON.parse(data);
+               var liStr= "";
+               // 遍历生成主菜单
+               for( var i = 0; i <data.length; i++){
+                   //console.log("--> "+JSON.stringify(data[i]));
+                   // 判断是否存在子菜单
+                   if(data[i].children!=null&&data[i].children.length>0){
+                       console.log("--> "+JSON.stringify(data[i].children));
+                       liStr+="<li class=\"layui-nav-item\"><a class=\"\" href=\"javascript:void(0);\"><i class='layui-icon' >&#xe653;</i> "+data[i].text+"</a>\n"+
+                           "<dl class=\"layui-nav-child\">\n";
+                       // 遍历获取子菜单
+                       for( var k = 0; k <data[i].children.length; k++){
+                           liStr+=getChildMenu(data[i].children[k],0);
+                       }
+                       liStr+="</dl></li>";
+                   }else{
+                       liStr+="<li class=\"layui-nav-item\"><a class=\"\" href=\"javascript:tabAdd(&quot;"+data[i].id+"&quot;,&quot;"+data[i].text+"&quot;,&quot;"+data[i].url+"&quot;)\"><i class='layui-icon' >&#xe66c;</i> "+data[i].text+"</a></li>";
+                   }
+               };
+               console.log(">>>> "+liStr);
+               $("#navBarId").html("<ul class=\"layui-nav layui-nav-tree\"  lay-filter=\"test\">\n" +liStr+"</ul>");
+               element.init();
+           } ,
+            error : function(){
+                layer.msg("error");
+            }
+        });
+
+        // 递归生成子菜单
+        function getChildMenu(subMenu,num) {
+            console.log("num: "+num);
+            num++;
+            var subStr = "";
+            if(subMenu.children!=null&&subMenu.children.length>0){
+                subStr+="<dd><ul><li class=\"layui-nav-item\" ><a style=\"margin-Left:"+num*menuCell+"px\" class=\"\" href=\"javascript:void(0);\"><i class='layui-icon' >&#xe653;</i> "+subMenu.text+"</a>" +
+                    "<dl class=\"layui-nav-child\">\n";
+                for( var j = 0; j <subMenu.children.length; j++){
+                    subStr+=getChildMenu(subMenu.children[j],num);
+                }
+                subStr+="</dl></li></ul></dd>";
+            }else{
+                subStr+="<dd><a style=\"margin-Left:"+num*menuCell+"px\" href=\"javascript:tabAdd(&quot;"+subMenu.id+"&quot;,&quot;"+subMenu.text+"&quot;,&quot;"+subMenu.url+"&quot;)\"><i class='layui-icon' >&#xe66c;</i> "+subMenu.text+"</a></dd>";
+            }
+            return subStr;
+        }
+    });
+
+    function refreshOrderPage(){
+        location.reload();
+    }
+
+    //添加选项卡
+    function tabAdd(id, name, url) {
+        if(layui.jquery(".layui-tab-title li[lay-id='" + name + "']").length > 0) {
+            //选项卡已经存在
+            layui.element.tabChange('demo', name);
+            layer.msg('切换-' + name)
+        } else {
+            //动态控制iframe高度
+            var tabheight = layui.jquery(window).height() - 50;
+            contentTxt = '<iframe src="' + url + '" scrolling="no" width="100%" height="' + (tabheight) + 'PX"></iframe>';
+            //新增一个Tab项
+            layui.element.tabAdd('demo', {
+                title: name,
+                content: contentTxt,
+                id: name
+            })
+            //切换刷新
+            layui.element.tabChange('demo', name)
+            layer.msg('新增-' + name)
+        }
+    }
+</script>
+
+<style id="LAY_layadmin_theme">
+    .layui-side-menu,
+    .layadmin-pagetabs .layui-tab-title li:after,
+    .layadmin-pagetabs .layui-tab-title li.layui-this:after,
+    .layui-layer-admin .layui-layer-title,
+    .layadmin-side-shrink .layui-side-menu .layui-nav>.layui-nav-item>.layui-nav-child{background-color: #0b2a0a !important;}  .layui-nav-tree .layui-this,.layui-nav-tree .layui-this>a,.layui-nav-tree .layui-nav-child dd.layui-this,.layui-nav-tree .layui-nav-child dd.layui-this a{background-color:#009688 !important;}  .layui-layout-admin .layui-logo{background-color:#20222A !important;}</style>
+</html>

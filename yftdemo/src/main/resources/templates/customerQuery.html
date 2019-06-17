@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>客户管理</title>
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/layui/layui.js"></script>
+    <link rel="stylesheet" href="/js/layui/css/layui.css">
+
+</head>
+<body>
+<div class="demoTable">
+    <div class="layui-input-inline">
+        <input type="text" id="customerId" lay-verify="required" placeholder="客户编号" autocomplete="off" class="layui-input">
+    </div>
+    &nbsp;
+    <div class="layui-input-inline">
+    <input type="text" id="customerName" lay-verify="required" placeholder="客户名称" autocomplete="off" class="layui-input">
+    </div>
+    &nbsp;
+    <div class="layui-input-inline">
+        <input type="text" id="certificatesNumber" lay-verify="required" placeholder="证件号码" autocomplete="off" class="layui-input">
+    </div>
+    &nbsp;
+    <div class="layui-input-inline">
+        <input type="text" id="customerPhone" lay-verify="required" placeholder="手机号" autocomplete="off" class="layui-input">
+    </div>
+    &nbsp;
+    <button class="layui-btn layui-btn-normal layui-btn-radius" id="sx" data-type="reload">查询</button>
+
+</div>
+<br>
+<table class="layui-hide" id="testtable"></table>
+</body>
+<script>
+    layui.use('table', function(){
+        var table = layui.table;
+
+        table.render({
+            elem: '#testtable'
+            ,url:'/findcustomer'
+            , page: true
+            , limits: [1, 5, 10]  //每页条数的选择项，默认：[10,20,30,40,50,60,70,80,90]。
+            , limit: 5 //每页默认显示的数量
+            , method: 'post'  //提交方式
+            ,cols:
+                [
+                [
+                {field:'customerId', width:120, title: '客户编号', sort: true}
+                ,{field:'customerName', width:120, title: '客户名称'}
+                ,{field:'certificatesTypeName', width:120, title: '证件类型'},
+                    {field:'certificatesNumber', width:120, title: '证件号'}
+                ,{field:'customerPhone', width:120, title: '手机号'}
+                ,{field:'customerMailbox', title: '邮箱', width: 120}
+            ]
+            ]
+            ,id: 'testReload'//条查使用的id
+
+        });
+        var $ = layui.$, active = {
+            reload: function(){
+                //执行重载
+                table.reload('testReload', {
+                    page: {
+                        curr: 1 //重新从第 1 页开始
+                    }
+                    ,where: {
+                        customerName:$("#customerName").val(),
+                        customerPhone:$("#customerPhone").val(),
+                        customerId:$("#customerId").val(),
+                        certificatesNumber:$("#certificatesNumber").val()
+                    }
+                });
+            }
+        };
+
+        $('#sx').on('click', function(){
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+    });
+</script>
+</html>

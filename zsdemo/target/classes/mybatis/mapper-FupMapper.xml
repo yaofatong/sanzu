@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jk.mapper.FupMapper">
+
+   <select id="serFind" resultType="com.jk.model.SerModel">
+       SELECT * from  service limit #{page},#{limit}
+   </select>
+
+    <insert id="saveMyLine">
+        insert  into  service(title,addDate,content)
+        values(#{title},now(),#{content})
+
+    </insert>
+
+
+    <select id="viewData" resultType="com.jk.model.SerModel">
+        select * from  service where serId=#{serId}
+    </select>
+
+
+    <select id="licheng" resultType="com.jk.model.SetModel">
+        select * from  setting where inId=1
+    </select>
+
+
+    <select id="tian" resultType="com.jk.model.DepModel">
+        select * from  deposit where monId=1
+    </select>
+
+    <update id="cheng">
+        update setting set milage=#{milage},beyond=#{beyond} where inId=1
+
+    </update>
+
+    <update id="tianshu">
+        update deposit set numberDays=#{numberDays} where monId=1
+
+    </update>
+
+
+</mapper>

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <script src="/js/jquery.min.js"></script>
+    <link rel="stylesheet" href="/js/layui/css/layui.css">
+
+    <script src="/js/layui/layui.js"></script>
+</head>
+<body>
+
+<form id="xiugai">
+<!--<input type="hidden" name="inId" th:value="${inId}">
+<input type="hidden" name="monId" th:value="${monId}">-->
+
+<div  class="ax_default heading_1">
+    <div id="u2293_div" class=""></div>
+
+    <div id="u2294" class="text" style="visibility: visible;">
+        <p><span>超里程设置</span></p>
+    </div>
+</div>
+
+<div class="layui-form-item">
+    <label class="layui-form-label">每日最高里程数：</label>
+    <div class="layui-input-inline">
+        <input type="text" name="milage" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+    </div>
+</div>
+
+<div class="layui-form-item">
+    <label class="layui-form-label">超出里程每公里费用：</label>
+    <div class="layui-input-inline">
+        <input type="text" name="beyond" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+    </div>
+</div>
+
+
+
+<div id="u2303" class="ax_default heading_1">
+    <div id="u2303_div" class=""></div>
+
+    <div id="u2304" class="text" style="visibility: visible; left: 0px; width: 60px; transform-origin: 27px 8px;">
+        <p><span>押金设置</span></p>
+    </div>
+</div>
+
+
+<div class="layui-form-item">
+    <label class="layui-form-label">押金收取天数：</label>
+    <div class="layui-input-inline">
+        <input type="text" name="numberDays" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+    </div>
+</div>
+
+<div id="u2307" class="ax_default html_button">
+    <input  type="button" onclick="addQd()" value="确定">
+    <input  type="button" onclick="qx()" value="取消">
+</div>
+
+
+</form>
+
+</body>
+
+<script>
+
+    function addQd() {
+
+        $.ajax({
+            url:"/addQd",
+            type:"post",
+            data:$("#xiugai").serialize(),
+            success:function () {
+                alert("修改成功")
+                location.href="/todays";
+
+            },
+            error:function (data) {
+
+                alert("删除失败")
+
+            }
+        })
+    }
+/*  function addQd() {
+        location.href="/addQd";
+    }*/
+
+
+</script>
+</html>

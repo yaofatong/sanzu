@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <script src="/js/jquery.min.js"></script>
+    <link rel="stylesheet" href="/js/layui/css/layui.css">
+
+    <script src="/js/layui/layui.js"></script>
+
+</head>
+<body>
+
+<button type="button"  class="layui-btn" onclick="toaddSer()">
+    <i class="layui-icon">&#xe608;</i> 添加
+</button>
+<table class="layui-hide" id="test" lay-filter="test"></table>
+
+<script>
+
+    $(function () {
+
+        find();
+    })
+
+
+
+
+    function toaddSer(){
+
+        location.href="/toaddSer";
+
+    }
+    function find() {
+        layui.use('table', function(){
+            var table = layui.table;
+            table.render({
+                elem: '#test'
+                ,url:'/serFind'
+                ,toolbar: '#toolbarDemo'
+                ,title: '用户数据表',
+                cols: [
+                    [
+                        {type:'checkbox'},
+                        {field:'title', width:100, title: '标题'},
+                        {field:'addDate', width:100, title: '添加时间'},
+                        {fixed: 'right', title:'操作',
+                        templet: function(res){
+                            var str="";
+                            str="<button class=\'layui-btn layui-btn-xs layui-btn-radius layui-btn-normal\' onclick='viewData(&quot;"+res.serId+"&quot;)'>查看</button>";
+                            str+="<button class=\'layui-btn layui-btn-xs layui-btn-radius layui-btn-normal\' onclick='deleteAll(&quot;"+res.serId+"&quot;)'>删除</button>";
+                            return str;
+                        }, width:100}
+                    ]
+                ],
+                id:"testReload",
+                page: true,
+                limits: [3,5,9],  //每页条数的选择项，默认：[10,20,30,40,50,60,70,80,90]。
+                limit: 5, //每页默,显示的数量
+                method: 'post'  //提交方式
+            })
+
+            var $ = layui.$, active = {
+                reload: function(){
+                    //执行重载
+                    table.reload('testReload', {
+                        page: {
+                            curr: 1 //重新从第 1 页开始
+                        }
+                        ,where: {
+
+                            name:$("#shen").val()
+
+                        }
+                    });
+                }
+            };
+
+            $('#sx').on('click', function(){
+                var type = $(this).data('type');
+                active[type] ? active[type].call(this) : '';
+
+            });
+        })
+
+    }
+
+
+    function viewData(serId) {
+        location.href="/viewData?serId="+serId;
+
+    }
+
+
+
+
+
+    function deleteAll(serId) {
+
+        $.ajax({
+            url:"/deleteAll",
+            type:"post",
+            data:{serId:serId},
+            success:function (data) {
+                alert("删除成功")
+               location.reload();
+
+            },
+            error:function (data) {
+
+                alert("删除失败")
+
+            }
+        })
+    }
+</script>
+</body>
+</html>

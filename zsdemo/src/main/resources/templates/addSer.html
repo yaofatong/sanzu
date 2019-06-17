@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="/js/jquery.min.js"></script>
+    <link rel="stylesheet" href="/js/layui/css/layui.css">
+
+    <script src="/js/layui/layui.js"></script>
+</head>
+<body>
+
+<form id="lineForm" class="layui-form" >
+    <table>
+        <tr>
+            <td>服务标题:</td>
+            <td>
+                <div class="layui-form-item">
+                    <div class="layui-input-inline">
+                        <input type="text" name="title" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+
+            </td>
+        </tr>
+        <tr>
+            <td>服务内容:</td>
+            <td>
+                <div class="layui-form-item layui-form-text">
+                    <div class="layui-input-block">
+                        <textarea name="content" placeholder="请输入内容" class="layui-textarea"></textarea>
+                    </div>
+                </div>
+            </td>
+        </tr>
+    </table>
+
+    <!--<input class="layui-btn layui-btn-normal layui-btn-radius" type="submit" value="保存">
+
+    <button class="layui-btn" lay-submit lay-filter="formDemo"  >立即提交</button>
+    <button type="reset" class="layui-btn layui-btn-primary">重置</button>-->
+
+    <div class="layui-form-item" style="margin-left: 200px">
+        <button  class="layui-btn layui-btn-normal" id="saveBtn"  type="button">增加</button>
+
+        <button class="layui-btn layui-btn-danger" onclick="">清空</button>
+    </div>
+
+</form>
+</body>
+
+<script>
+
+
+
+
+    $("#saveBtn").click(function () {
+
+        $.ajax({
+            url:"/saveMyLine",
+            type:"post",
+            data:$("#lineForm").serialize(),
+            success:function (data) {
+
+
+
+
+                if (data.code == 0) {
+                    layer.msg(data.msg);
+
+                } else {
+                    layer.msg(data.msg);
+                }
+
+                alert("成功")
+                location.href="/tdbasis"
+
+            },
+            error:function () {
+                alert("新增失败")
+            }
+        })
+    });
+</script>
+</html>

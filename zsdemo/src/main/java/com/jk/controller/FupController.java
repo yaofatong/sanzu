@@ -21,7 +21,7 @@ public class FupController {
 
     @RequestMapping("tobasis")
     public String tobasis(){
-        return "basis";
+        return "/basis";
     }
 
 
@@ -43,7 +43,7 @@ public class FupController {
     @RequestMapping("saveMyLine")
     @ResponseBody
     public String saveMyLine(SerModel serModel){
-            fupService.saveMyLine(serModel);
+        fupService.saveMyLine(serModel);
         return null;
     }
 
@@ -73,10 +73,10 @@ public class FupController {
     }
 
 
- /*   @RequestMapping("updateXg")
+    @RequestMapping("updateXg")
     public String updateXg(){
         return "addSer";
-    }*/
+    }
 
     @RequestMapping("fh")
     public String fh(){
@@ -115,40 +115,6 @@ public class FupController {
         fupService.tianshu(depModel);
         return null;
     }
-
-
-
-    @RequestMapping("updateBasis")
-    @ResponseBody
-    public String updateBasis(SerModel serModel){
-
-        fupService.updateBasis(serModel);
-
-
-        return null;
-    }
-
-
-
-
-
-
-    @RequestMapping("tocoupon")
-    public String tocoupon(){
-        return "coupon";
-    }
-
-    @RequestMapping("selectbd")
-    @ResponseBody
-    public HashMap<String,Object> selectbd(Integer couponId){
-
-        return fupService.selectbd(couponId);
-    }
-
-
-
-
-
 
 
 

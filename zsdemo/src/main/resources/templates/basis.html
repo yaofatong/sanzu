@@ -4,8 +4,9 @@
     <meta charset="UTF-8">
     <title>Title</title>
 
-    <link rel="stylesheet" href="/js/layui/css/layui.css">
     <script src="/js/jquery.min.js"></script>
+    <link rel="stylesheet" href="/js/layui/css/layui.css">
+
     <script src="/js/layui/layui.js"></script>
 
 </head>
@@ -19,8 +20,12 @@
 <script>
 
     $(function () {
+
         find();
     })
+
+
+
 
     function toaddSer(){
 
@@ -28,26 +33,25 @@
 
     }
     function find() {
-
         layui.use('table', function(){
             var table = layui.table;
-
             table.render({
-                elem: '#test',
-                url:'/serFind',
-                toolbar: '#toolbarDemo',
-                title: '用户数据表',
-                cols:[
+                elem: '#test'
+                ,url:'/serFind'
+                ,toolbar: '#toolbarDemo'
+                ,title: '用户数据表',
+                cols: [
                     [
                         {type:'checkbox'},
-                        {field:'title', width:130, title: '标题'},
-                        {field:'addDate', width:180, title: '添加时间'},
-                        {fixed: 'right', title:'操作',templet: function(res){
+                        {field:'title', width:100, title: '标题'},
+                        {field:'addDate', width:100, title: '添加时间'},
+                        {fixed: 'right', title:'操作',
+                        templet: function(res){
                             var str="";
                             str="<button class=\'layui-btn layui-btn-xs layui-btn-radius layui-btn-normal\' onclick='viewData(&quot;"+res.serId+"&quot;)'>查看</button>";
                             str+="<button class=\'layui-btn layui-btn-xs layui-btn-radius layui-btn-normal\' onclick='deleteAll(&quot;"+res.serId+"&quot;)'>删除</button>";
                             return str;
-                        }, width:130}
+                        }, width:100}
                     ]
                 ],
                 id:"testReload",
@@ -56,6 +60,28 @@
                 limit: 5, //每页默,显示的数量
                 method: 'post'  //提交方式
             })
+
+            var $ = layui.$, active = {
+                reload: function(){
+                    //执行重载
+                    table.reload('testReload', {
+                        page: {
+                            curr: 1 //重新从第 1 页开始
+                        }
+                        ,where: {
+
+                            name:$("#shen").val()
+
+                        }
+                    });
+                }
+            };
+
+            $('#sx').on('click', function(){
+                var type = $(this).data('type');
+                active[type] ? active[type].call(this) : '';
+
+            });
         })
 
     }
@@ -113,10 +139,14 @@
 
     }
 
+
     function viewData(serId) {
         location.href="/viewData?serId="+serId;
 
     }
+
+
+
 
 
     function deleteAll(serId) {

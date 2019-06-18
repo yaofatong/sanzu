@@ -24,9 +24,4 @@ public interface FupService {
     void cheng(SetModel setModel);
 
     void tianshu(DepModel depModel);
-
-
-    void updateBasis(SerModel serModel);
-
-    HashMap<String, Object> selectbd(Integer couponId);
 }

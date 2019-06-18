@@ -13,14 +13,16 @@
 </head>
 <body>
 
-<form class="layui-form" >
+<form id="XgForm" class="layui-form" >
+
+    <input type="hidden" name="serId" th:value="${serModel.serId}">
     <table>
         <tr>
             <td>服务标题:</td>
             <td>
                 <div class="layui-form-item">
                     <div class="layui-input-inline">
-                        <input type="text" th:value="${serModel.title}" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+                        <input type="text" name="title" th:value="${serModel.title}" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
                     </div>
                 </div>
 
@@ -31,7 +33,7 @@
             <td>
                 <div class="layui-form-item layui-form-text">
                     <div class="layui-input-block">
-                        <textarea th:text="${serModel.content}" placeholder="请输入内容" class="layui-textarea">
+                        <textarea name="content" th:text="${serModel.content}" placeholder="请输入内容" class="layui-textarea">
 
                         </textarea>
                     </div>
@@ -41,7 +43,7 @@
     </table>
 
     <div class="layui-form-item" style="margin-left: 200px">
-        <button  class="layui-btn layui-btn-normal" onclick="updateXg()"  type="button">修改</button>
+        <button  class="layui-btn layui-btn-normal" id="updateXg"  type="button">修改</button>
 
         <button class="layui-btn layui-btn-danger" onclick="fh()">返回</button>
     </div>
@@ -53,10 +55,31 @@
 
 <script>
 
-    function updateXg() {
+
+
+
+
+    $("#updateXg").click(function () {
+
+        $.ajax({
+            url:"/updateBasis",
+            type:"post",
+            data:$("#XgForm").serialize(),
+            success:function (data) {
+
+                alert("修改成功")
+                location.href="/tdbasis"
+
+            },
+            error:function () {
+                alert("修改失败")
+            }
+        })
+    });
+    /*function updateXg() {
 
         location.href="/updateXg";
-    }
+    }*/
 
     function fh(){
 

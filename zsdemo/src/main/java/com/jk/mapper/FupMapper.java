@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
+import java.util.HashMap;
 import java.util.List;
 
 public interface FupMapper {
@@ -29,4 +30,9 @@ public interface FupMapper {
     void cheng(SetModel setModel);
 
     void tianshu(DepModel depModel);
+
+
+    void updateBasis(SerModel serModel);
+
+    HashMap<String, Object> selectbd(Integer couponId);
 }

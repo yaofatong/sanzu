@@ -16,6 +16,4 @@ public interface CustomerMapper {
 
     @Select("select * from menutree")
     List<MenuTree> getTree();
-    @Select("select * from customer where customerName=#{customerName}")
-    Customer getCusByName(@Param("customerName") String customerName);
 }

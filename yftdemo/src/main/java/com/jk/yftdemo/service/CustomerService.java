@@ -10,4 +10,6 @@ public interface CustomerService {
     HashMap<String, Object> findcustomer(Integer page, Integer limit, Customer cus);
 
     List<MenuTree> getTree();
+
+    Customer getCustomer(String customerName);
 }

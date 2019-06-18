@@ -12,4 +12,6 @@ public class Customer {
     private String customerMailbox;
     private Integer certificatesTypeId;
     private String certificatesTypeName;
+    private String customerPass;
+    private Integer titleStatus;//1未封号 2已封号
 }

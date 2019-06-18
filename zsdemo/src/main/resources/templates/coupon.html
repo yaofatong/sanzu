@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+
+    <script src="/js/jquery.min.js"></script>
+    <link rel="stylesheet" href="/js/layui/css/layui.css">
+
+    <script src="/js/layui/layui.js"></script>
+</head>
+<body>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">优惠券编码</label>
+        <div class="layui-input-inline">
+            <input type="text" name="coding" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+            <button type="button" onclick="selectbd(couponId)" class="layui-btn layui-btn-normal layui-btn-radius">绑定</button>
+        </div>
+    </div>
+
+</body>
+<script>
+
+    function selectbd(couponId) {
+        location.href="/selectbd?couponId="+couponId;
+    }
+
+</script>
+</html>

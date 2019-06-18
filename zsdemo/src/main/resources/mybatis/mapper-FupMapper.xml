@@ -37,5 +37,15 @@
 
     </update>
 
+    <update id="updateBasis">
+        update service set title=#{title},content=#{content} where serId=#{serId}
+
+    </update>
+
+
+    <select id="selectbd" resultType="java.util.HashMap">
+        select * from t_coupon where couponId=#{couponId}
+
+    </select>
 
 </mapper>

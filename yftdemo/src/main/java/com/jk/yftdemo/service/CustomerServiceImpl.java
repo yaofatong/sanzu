@@ -78,4 +78,10 @@ public class CustomerServiceImpl implements CustomerService{
 
 
     }
+
+    @Override
+    public Customer getCustomer(String customerName) {
+
+        return mapper.getCusByName(customerName);
+    }
 }

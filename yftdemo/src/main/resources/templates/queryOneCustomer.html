@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>个人信息</title>
+    <link rel="stylesheet" href="/js/layui/css/layui.css">
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/layui/layui.js"></script>
+</head>
+<body>
+<div class="layui-form-item">
+    <label class="layui-form-label">账号</label>
+    <div class="layui-input-block">
+        <span th:text="${cus.customerName}"></span>
+    </div>
+</div>
+<div class="layui-form-item">
+    <label class="layui-form-label">密码</label>
+    <div class="layui-input-block">
+        <span th:text="${cus.customerPass}"></span>
+    </div>
+</div>
+<div class="layui-form-item">
+    <label class="layui-form-label">邮箱</label>
+    <div class="layui-input-block">
+        <span th:text="${cus.customerMailbox}"></span>
+    </div>
+</div>
+<div class="layui-form-item">
+    <label class="layui-form-label">手机号</label>
+    <div class="layui-input-block">
+        <span th:text="${cus.customerPhone}"></span>
+    </div>
+</div>
+<div class="layui-form-item">
+    <label class="layui-form-label">证件类型</label>
+    <div class="layui-input-block">
+        <span th:text="${cus.certificatesTypeName}"></span>
+    </div>
+</div>
+<div class="layui-form-item">
+    <label class="layui-form-label">证件号</label>
+    <div class="layui-input-block">
+        <span th:text="${cus.certificatesNumber}"></span>
+    </div>
+</div>
+<center><button type="button" class="layui-btn" onclick="updatecus()">修改</button>&nbsp;&nbsp;</center>
+</body>
+<script>
+function updatecus(){
+    location.href="/toupdateCustomer";
+}
+</script>
+</html>

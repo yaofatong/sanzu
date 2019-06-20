@@ -20,7 +20,7 @@
 
             margin-left: -200px;
 
-            margin-top: -80px;
+            margin-top: -200px;
 
             top: 50%;
 
@@ -42,7 +42,7 @@
 
 </head>
 
-<body style="background: #f1f1f1;">
+<body style="background-image:url('https://20190506-img.oss-cn-beijing.aliyuncs.com/739765.png?Expires=1560867583&OSSAccessKeyId=TMP.AgGsBNha0tShz7a3G31HCHGscal1UEotCjOevazrJOR0ytVaiR5OUWtS4wO5ADAtAhUAybL2_Wtv1RNMFZmDEOFFIwakqW4CFEAo4BxbUBIbdawrNFMTK6dv2vbH&Signature=cK7RonIgtfIZ%2FoxplmAEKiXwNf0%3D')">
 
 <div id="yx1" class="window">
 
@@ -50,11 +50,12 @@
         <div class="layui-header">
             <!--<div class="layui-layout-left"><a href=""></a></div>-->
             <ul class="layui-nav">
-                <li class="layui-nav-item"><a href="javascript:updatestyle1()">手机快捷登录</a></li>
+                <li class="layui-nav-item"><a href="javascript:updatestyle2()">普通登录</a></li>
             </ul>
             <!-- 头部区域（可配合layui已有的水平导航） -->
             <ul class="layui-nav layui-layout-left">
-                <li class="layui-nav-item"><a href="javascript:updatestyle2()">普通登录</a></li>
+                <li class="layui-nav-item"><a href="javascript:updatestyle1()">手机快捷登录</a></li>
+
             </ul>
 
         </div>
@@ -105,8 +106,8 @@
 
         </div>
 
-        <center><font size="2" color="#bdb76b">没有账号？<a href="">立即注册</a><br>
-        账号封禁？<a href="">手机验证解封</a></font>
+        <center><font size="2" color="#bdb76b">没有账号？<a href="/toregister">立即注册</a><br>
+        账号封禁？<a href="/torelieve">手机验证解封</a></font>
         </center>
 
         <div class="layui-form-item" pane="">
@@ -126,11 +127,12 @@
         <div class="layui-header">
             <!--<div class="layui-layout-left"><a href=""></a></div>-->
             <ul class="layui-nav">
-                <li class="layui-nav-item"><a href="javascript:updatestyle1()">手机快捷登录</a></li>
+                <li class="layui-nav-item"><a href="javascript:updatestyle2()">普通登录</a></li>
             </ul>
             <!-- 头部区域（可配合layui已有的水平导航） -->
             <ul class="layui-nav layui-layout-left">
-                <li class="layui-nav-item"><a href="javascript:updatestyle2()">普通登录</a></li>
+                <li class="layui-nav-item"><a href="javascript:updatestyle1()">手机快捷登录</a></li>
+
             </ul>
 
         </div>
@@ -143,8 +145,30 @@
 
             <div class="layui-input-block">
 
-                <input type="text" name="phoneNumber" required  lay-verify="required" placeholder="请输入手机号" autocomplete="off" class="layui-input">
+                <input type="text" name="phoneNumber" id="phoneNumber" required  lay-verify="required" placeholder="请输入手机号" autocomplete="off" class="layui-input">
 
+            </div>
+
+        </div>
+
+
+        <div class="layui-form-item" >
+
+            <label class="layui-form-label">
+
+                <span class="label">图片验证码：</span>
+
+            </label>
+
+            <div class="layui-input-inline">
+
+                <div style="float: left">
+                    <input type="text" class="layui-input" size=5 name="imgcode2"  id="imgId2" placeholder="验证码">
+                </div>
+                <div style="float: left">
+                    <img id="imgcode2" src="/verificationCode2" onclick="change2()">
+                </div>
+                <i style="color:red;" id="imgcod2"></i>
             </div>
 
         </div>
@@ -154,29 +178,30 @@
 
             <div class="layui-input-inline">
 
-                <input id="btnSendCode" style="width: 120px;height: 39px;text-align: center;background-color: white;border: 1px solid #E2E2E2;" type="button"   value="获取验证码" onclick="sendMessage();" />
+                <input id="btnSendCode" style="width: 120px;height: 39px;text-align: center;background-color: white;border: 1px solid #E2E2E2;" type="button"   value="获取手机验证码" onclick="sendMessage2()" />
 
             </div>
 
         </div>
         <div class="layui-form-item" >
 
-            <label class="layui-form-label">验证码：</label>
+            <label class="layui-form-label">手机验证码：</label>
 
             <div class="layui-input-inline">
 
-                <input type="password" name="password" required lay-verify="required" placeholder="请输入验证码" autocomplete="off" class="layui-input">
+                <input type="text" name="yzm" required lay-verify="required" placeholder="请输入验证码" autocomplete="off" class="layui-input">
 
             </div>
 
         </div>
-
-
+        <center><font size="2" color="#bdb76b">没有账号？<a href="/toregister">立即注册</a><br>
+            账号封禁？<a href="/torelieve">手机验证解封</a></font>
+        </center>
 
         <div class="layui-form-item" pane="">
             <div style="text-align: center;">
 
-                <input type="submit" class="layui-btn"  value="登&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;录"/>
+                <input type="button" class="layui-btn"  onclick="sjlogin()" value="登&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;录"/>
 
             </div>
         </div>
@@ -191,13 +216,17 @@
     var count = 60; //间隔函数，1秒执行
     var curCount;//当前剩余秒数
     //发送短信验证码
-    function sendMessage() {
+    function sendMessage2() {
         $.ajax({
-            url:"/sendMessage",
+            url:"/sendMessage2",
             type:"post",
-            data:$("#sjFormId").serialize(),
+            data:{phoneNumber:$("#phoneNumber").val(),imgcode2:$("#imgId2").val()},
             success:function(data){
-
+                layui.use('layer', function() {
+                    layer.msg(data.msg, {
+                        time: 1000, //20s后自动关闭
+                    });
+                })
             }
         })
         curCount = count;
@@ -223,6 +252,9 @@
     function change(){
         $("#imgcode").attr("src","/verificationCode?t="+Date.now());
     }
+    function change2(){
+        $("#imgcode2").attr("src","/verificationCode2?t="+Date.now());
+    }
 function updatestyle1() {
     $("#yx2").show();
     $("#yx1").hide();
@@ -239,20 +271,70 @@ function ptForm() {
         success:function (data){
             //返回1 登陆成功 2验证码错误 3 密码或者账号错误 4 账号被封禁 5 不可为空
             if(data.status==1){
-                alert("登陆成功")
-            }else if(data.status==2){
-                alert("验证码错误")
-            }else if(data.status==3){
-                alert("密码或者账号错误")
-            }
-            else if(data.status==4){
-                alert("账号被封禁")
-            }
-            else if(data.status==5){
-                alert("不可为空")
+                //alert("登陆成功")
+
+                location.href="/tosuccess"
+            }else{
+                layui.use('layer', function() {
+                    layer.msg(data.status, {
+                        time: 1000, //20s后自动关闭
+                    });
+                })
             }
         }
     })
+}
+function sjlogin(){
+        $.ajax({
+            url:"/sjlogin",
+            type:"post",
+            data:$("#sjFormId").serialize(),
+            success:function(data){
+                //1代表登录成功 2代表超时5分钟了 3 代表验证码错误 4 代表该手机号未注册 5代表不可为空
+                if(data.status==1){
+                    //alert("登录成功");
+                    location.href="/tosuccess"
+                }else if(data.status==2){
+                    layui.use('layer', function() {
+                        layer.msg("手机验证码超时5分钟", {
+                            time: 1000, //20s后自动关闭
+                        });
+                    })
+                }else if(data.status==3){
+
+                    layui.use('layer', function() {
+                        layer.msg("手机验证码错误", {
+                            time: 1000, //20s后自动关闭
+                        });
+                    })
+                }else if(data.status==4){
+                    layui.use('layer', function() {
+                        layer.msg("该手机号未注册", {
+                            time: 1000, //20s后自动关闭
+                        });
+                    })
+                }else if(data.status==5){
+                    layui.use('layer', function() {
+                        layer.msg("不可为空", {
+                            time: 1000, //20s后自动关闭
+                        });
+                    })
+                }else if(data.status==6){
+
+                    layui.use('layer', function() {
+                        layer.msg("账号被封🈲", {
+                            time: 1000, //20s后自动关闭
+                        });
+                    })
+                }else if(data.status==7){
+                    layui.use('layer', function() {
+                        layer.msg("图片验证码错误", {
+                            time: 1000, //20s后自动关闭
+                        });
+                    })
+                }
+            }
+        })
 }
 </script>
 </html>

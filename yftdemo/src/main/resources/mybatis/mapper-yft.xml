@@ -31,7 +31,8 @@ a.customerPhone,
 a.certificatesNumber,
 a.certificatesType,
 a.customerName,
-a.customerId from customer a inner join certificates b on a.certificatesType=b.certificatesTypeId where 1=1
+a.customerId,
+        a.titleStatus from customer a inner join certificates b on a.certificatesType=b.certificatesTypeId where 1=1
         <if test="customerId != null and customerId!=''">
             and a.customerId=#{customerId}
         </if>
@@ -47,4 +48,18 @@ a.customerId from customer a inner join certificates b on a.certificatesType=b.c
         group by a.customerId
         limit #{page},#{limit}
     </select>
+    <insert id="addCus" parameterType="com.jk.yftdemo.model.Customer">
+        insert into customer (customerMailbox,customerPhone,certificatesNumber,certificatesType,customerName,customerPass,titleStatus)
+        values (#{customerMailbox},#{customerPhone},#{certificatesNumber},#{certificatesType},#{customerName},#{customerPass},1)
+    </insert>
+    <insert id="addBalance">
+        insert into (paymentPass,currentBalance,freezingBalance ,consumed ,balanceUserId ) values ('123123',0,0,0,#{customerid})
+    </insert>
+    <update id="updatecus" parameterType="com.jk.yftdemo.model.Customer">
+        update customer set customerMailbox=#{
+        customerMailbox},customerPhone=#{customerPhone}
+        ,certificatesNumber=#{certificatesNumber},certificatesType=#{certificatesType},
+        customerName=#{customerName},customerPass=#{customerPass}
+        where customerid=#{customerId}
+    </update>
 </mapper>

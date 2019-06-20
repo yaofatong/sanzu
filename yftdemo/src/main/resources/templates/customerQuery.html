@@ -27,8 +27,8 @@
     </div>
     &nbsp;
     <button class="layui-btn layui-btn-normal layui-btn-radius" id="sx" data-type="reload">查询</button>
-
 </div>
+
 <br>
 <table class="layui-hide" id="testtable"></table>
 </body>
@@ -51,7 +51,19 @@
                 ,{field:'certificatesTypeName', width:120, title: '证件类型'},
                     {field:'certificatesNumber', width:120, title: '证件号'}
                 ,{field:'customerPhone', width:120, title: '手机号'}
-                ,{field:'customerMailbox', title: '邮箱', width: 120}
+                ,{field:'customerMailbox', title: '邮箱', width: 120},
+                    { field:'titleStatus',title: '操作', width: 120,
+                        templet: function(res){
+                        var str="";
+                        if(res.titleStatus==1){
+                            str="<button class=\"layui-btn layui-btn-xs layui-btn-radius layui-btn-normal\" onclick='shsh(&quot;"+res.customerId+"&quot;,2)'>封号</button>";
+                        }
+                        if(res.titleStatus==2){
+                            str="<button class='layui-btn layui-btn-xs layui-btn-radius layui-btn-normal' onclick='shsh(&quot;"+res.customerId+"&quot;,1)'>解封</button>";
+                        }
+                            return str;
+                        }
+                    }
             ]
             ]
             ,id: 'testReload'//条查使用的id
@@ -79,5 +91,15 @@
             active[type] ? active[type].call(this) : '';
         });
     });
+    function shsh(cusId,zt) {
+        $.ajax({
+            url:"updatecusstatus",
+            type:"post",
+            data:{cusId:cusId,zt:zt},
+            success:function(){
+                location.reload();
+            }
+        })
+    }
 </script>
 </html>

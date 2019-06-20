@@ -12,4 +12,14 @@ public interface CustomerService {
     List<MenuTree> getTree();
 
     Customer getCustomer(String customerName);
+
+    Customer getCusByPhone(String phoneNumber);
+
+    void addCus(Customer cus);
+
+    void updateStatus(String customerId);
+
+    void updatecus(Customer cus);
+
+    void updatecusstatus(String zt, String cusId);
 }

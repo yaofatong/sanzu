@@ -33,24 +33,19 @@ public class CustomerServiceImpl implements CustomerService{
         String customerName = cus.getCustomerName();
         Jedis jedis = jedisPool.getResource();
 
-        if(jedis.get("customer"+page)==null||jedis.get("customerCount")==null){
+        if(jedis.get("customer"+page+limit+cus.toString())==null||jedis.get("customerCount")==null){
             Long count=mapper.getCount(customerId,certificatesNumber,customerPhone,customerName);
             List<Customer> list=mapper.getCustomer(page,limit,customerId,certificatesNumber,customerPhone,customerName);
             jedis.set("customerCount",count+"");
-            jedis.set("customer"+page,JSON.toJSONString(list));
-            List<Customer> list1=JSON.parseArray(jedis.get("customer"+page),Customer.class);
+            jedis.set("customer"+page+limit+cus.toString(),JSON.toJSONString(list));
+            List<Customer> list1=JSON.parseArray(jedis.get("customer"+page+limit+cus.toString()),Customer.class);
             map.put("data",list1);
             map.put("count",jedis.get("customerCount"));
         }else{
-            if(cus!=null){
-                Long count=mapper.getCount(customerId,certificatesNumber,customerPhone,customerName);
-                List<Customer> list=mapper.getCustomer(page,limit,customerId,certificatesNumber,customerPhone,customerName);
-                map.put("data",list);
-                map.put("count",count);
-            }else{
-                map.put("data",jedis.get("customer"+page));
-                map.put("count",jedis.get("customerCount"));
-            }
+            List<Customer> list1=JSON.parseArray(jedis.get("customer"+page+limit+cus.toString()),Customer.class);
+            map.put("data", list1);
+            map.put("count",jedis.get("customerCount"));
+
         }
 
         //List<Customer> list=mapper.getCustomer(page,limit,customerId,certificatesNumber,customerPhone,customerName);
@@ -83,5 +78,39 @@ public class CustomerServiceImpl implements CustomerService{
     public Customer getCustomer(String customerName) {
 
         return mapper.getCusByName(customerName);
+    }
+
+    @Override
+    public Customer getCusByPhone(String phoneNumber) {
+
+        return mapper.getCusByPhone(phoneNumber);
+    }
+
+    @Override
+    public void addCus(Customer cus) {
+        mapper.addCus(cus);
+        Jedis resource = jedisPool.getResource();
+        resource.del("customerCount");
+        //Customer cusByPhone = mapper.getCusByPhone(cus.getCustomerPhone());
+        //mapper.addBalance(cusByPhone.getCustomerId());
+    }
+
+    @Override
+    public void updateStatus(String customerId) {
+        mapper.updateStatus(customerId);
+    }
+
+    @Override
+    public void updatecus(Customer cus) {
+        mapper.updatecus(cus);
+        Jedis resource = jedisPool.getResource();
+        resource.del("customerCount");
+    }
+
+    @Override
+    public void updatecusstatus(String zt, String cusId) {
+        mapper.updatecusstatus(zt,cusId);
+        Jedis resource = jedisPool.getResource();
+        resource.del("customerCount");
     }
 }

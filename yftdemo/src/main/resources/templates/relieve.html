@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>封禁解除</title>
+    <link rel="stylesheet" href="/js/layui/css/layui.css">
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/layui/layui.all.js"></script>
+    <script src="/js/layui/layui.js"></script>
+</head>
+<body>
+<form id="relieveId"  class="layui-form" method="post">
+    <div class="layui-form-item" style="margin-right: 100px;margin-top: 20px;">
+
+        <label class="layui-form-label">用户名：</label>
+
+        <div class="layui-input-block">
+
+            <input type="text" name="username" required  lay-verify="required" placeholder="请输入用户名" autocomplete="off" class="layui-input">
+
+        </div>
+
+    </div>
+
+    <div class="layui-form-item" >
+
+        <label class="layui-form-label">密&nbsp;&nbsp;&nbsp;&nbsp;码：</label>
+
+        <div class="layui-input-block">
+
+            <input type="password" name="userpass" required lay-verify="required" placeholder="请输入密码" autocomplete="off" class="layui-input">
+
+        </div>
+
+    </div>
+    <div class="layui-form-item" style="margin-right: 100px;margin-top: 20px;">
+
+        <label class="layui-form-label">手机号：</label>
+
+        <div class="layui-input-block">
+
+            <input type="text" name="phone" id="phoneNumber" required  lay-verify="required" placeholder="请输入手机号" autocomplete="off" class="layui-input">
+
+        </div>
+
+    </div>
+
+    <div class="layui-form-item" >
+
+        <label class="layui-form-label"></label>
+
+        <div class="layui-input-inline">
+
+            <input id="btnSendCode" style="width: 120px;height: 39px;text-align: center;background-color: white;border: 1px solid #E2E2E2;" type="button"   value="获取手机验证码" onclick="sendMessage2()" />
+
+        </div>
+
+    </div>
+    <div class="layui-form-item" >
+
+        <label class="layui-form-label">手机验证码：</label>
+
+        <div class="layui-input-inline">
+
+            <input type="text" name="sjyzm" required lay-verify="required" placeholder="请输入验证码" autocomplete="off" class="layui-input">
+
+        </div>
+
+    </div>
+
+
+    <div class="layui-form-item" pane="">
+        <div style="text-align: center;">
+
+            <input type="button" class="layui-btn"  onclick="relieve()" value="封禁解除"/>
+
+        </div>
+    </div>
+
+</form>
+</body>
+<script>
+    function relieve(){
+        $.ajax({
+            url:"/relievejc",
+            type:"post",
+            data:$("#relieveId").serialize(),
+            success:function(data){
+                // 1为解除封号 2 用户名和密码不匹配 3 用户名和手机号不匹配 4 验证码错误 5不可为空 6 没有该用户
+                layer.msg(data.status, {
+                    time: 1000, //1s后自动关闭
+                });
+            }
+        })
+    }
+    var InterValObj; //timer变量，控制时间
+    var count = 60; //间隔函数，1秒执行
+    var curCount;//当前剩余秒数
+    //发送短信验证码
+    function sendMessage2() {
+        $.ajax({
+            url:"/sendMessage",
+            type:"post",
+            data:{phoneNumber:$("#phoneNumber").val()},
+            success:function(data){
+                layer.msg(data.msg, {
+                    time: 1000, //20s后自动关闭
+                });
+            }
+        })
+        curCount = count;
+        // 设置button效果，开始计时
+        document.getElementById("btnSendCode").setAttribute("disabled","true" );//设置按钮为禁用状态
+        document.getElementById("btnSendCode").value=curCount + "秒后重获";//更改按钮文字
+        InterValObj = window.setInterval(SetRemainTime, 1000); // 启动计时器timer处理函数，1秒执行一次
+    }
+    //timer处理函数
+    function SetRemainTime() {
+        if (curCount == 0) {//超时重新获取验证码
+            window.clearInterval(InterValObj);// 停止计时器
+            document.getElementById("btnSendCode").removeAttribute("disabled");//移除禁用状态改为可用
+            document.getElementById("btnSendCode").value="重获验证码";
+        }else {
+            curCount--;
+            document.getElementById("btnSendCode").value=curCount + "秒后重获";
+        }
+    }
+</script>
+</html>
